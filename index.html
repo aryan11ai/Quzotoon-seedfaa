@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="userSelection.css">
+    <link rel="shortcut icon" href="./Quzotoon.ico" type="image/xx-icon">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            background: #d4e1e7;
+            height: 100vh;
+        }
+        .app{
+            height: 100vh;
+            width: 100%;
+            background-color: rgb(4, 0, 24);
+        }
+        .loading{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            background-color: rgb(4, 0, 24);
+        }
+        .save_details{
+            height: 100vh;
+            width: 100%;
+            background-color: rgb(255, 245, 245);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: fixed;
+        }
+        .save_details b{
+            font-size: 18px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin-bottom: 20px;
+        }
+        .save_details .name{
+            width: 400px;
+            height: 200px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3), 
+            -2px -2px 5px rgba(255, 255, 255, 0.2);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+        .save_details .name p{
+            font-size: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin-left: 50px;
+        }
+        .save_details .name p input{
+            border: 0;
+            overflow: 0;
+            outline: 0;
+            font-size: 18px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            border-bottom: 2px solid black;
+            padding-left: 5px;
+        }
+        .save_details .name p input:focus{
+            border-bottom: 2px solid rgb(0, 89, 255);
+            color: rgb(0, 89, 255);
+        }
+        .save_details .name button{
+            background-color: rgb(0, 89, 255);
+            border: 0;
+            width: 80px;
+            height: 30px;
+            border-radius: 5px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3), 
+            -2px -2px 5px rgba(255, 255, 255, 0.2);
+            color: rgb(255, 255, 255);
+            margin-left: auto;
+            float: right;
+            margin-top: 80px;
+            margin-right: 20px;
+        }
+        .save_details .name button:hover{
+            background-color: rgb(46, 119, 255);
+        }
+        .save_details .name button:active{
+            background-color: rgb(0, 66, 189);
+        }
+        .save_details .active{
+            display: flex;
+        }
+        .save_details .name button:disabled{
+            background-color: rgb(157, 191, 255);
+        }
+        #editButton{
+            background-color: rgb(0, 89, 255);
+            border: 0;
+            width: 80px;
+            height: 30px;
+            border-radius: 5px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            color: rgb(255, 255, 255);
+        }
+        .homeScreen{
+            width: 100%;
+            height: 100vh;
+            background: #fff9f9;
+        }
+        .homeScreen nav{
+            display: flex;
+            justify-content: space-between;
+            height: 80px;
+            background-color: #363636;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            align-items: center;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" id="appScreen">
+            <div class="loading" id="loading">
+                <img src="./Quzotoon Loding.gif" width="200px" alt="Quzotoon">
+            </div>
+            <div class="save_details" id="save_details">
+                <b>Let make your data saved</b>
+                <div class="name active">
+                    <p>Hmm,</p>
+                    <p>I am <input type="text" id="name"></p>
+                    <button onclick="saveText('name'), nextStep(0)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>And,</p>
+                    <p>My father's name is <input type="text" id="f-name"></p>
+                    <button onclick="saveText('f-name'), nextStep(1)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>And,</p>
+                    <p>I read in standard <input type="text" id="class"></p>
+                    <button onclick="saveText('class'), nextStep(2)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>And,</p>
+                    <p>My Roll No is <input type="text" id="roll"></p>
+                    <button onclick="saveText('roll'), nextStep(3)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>Then,</p>
+                    <p>I read in school <input type="text" id="school"></p>
+                    <button onclick="saveText('school'), nextStep(4)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>And,</p>
+                    <p>My Mobile No is <input type="text" id="mobile"></p>
+                    <button onclick="saveText('mobile'), nextStep(5)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>Then,</p>
+                    <p>My Email is <input type="email" id="email"></p>
+                    <button onclick="saveText('email'), nextStep(6)">Next</button>
+                </div>
+        
+                <div class="name">
+                    <p>✅ Your details have been saved!</p>
+                    <p id="preText">We are prepars your site</p>
+                    <button id="loadingButton" onclick="startLoading()">Start</button>
+                    <button id="loadingButton2" style="display: none;" onclick="displaySite()">Done</button>
+                </div>
+            </div>
+            <div class="homeScreen">
+                <nav>
+                    <button id="editButton" onclick="editDetails()" style="display: none;">Edit Details</button>
+                    <img src="./Quzotoon.png" width="60px" alt="">
+                    <div></div>
+                </nav>
+                <section id="home some details">
+                    <p>Hi,</p>
+                    <p id="studenNameView"></p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let displayName1 = document.getElementById('studenNameView');
+        displayName1.innerHTML = `${localStorage.getItem("name") || "New Student"}`
+    </script>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById("loading").style.display = "none";
+        }, 5000);      
+        
+
+
+        
+        function saveText(fieldId) {
+            let input = document.getElementById(fieldId);
+            if (input) {
+                localStorage.setItem(fieldId, input.value);
+            }
+        }
+    
+        function nextStep(index) {
+            let steps = document.querySelectorAll('.name');
+            steps[index].classList.remove('active');
+            if (index + 1 < steps.length) {
+                steps[index + 1].classList.add('active');
+            } else {
+                checkSavedData();
+            }
+        }
+    
+        function loadSavedData() {
+            let fields = ['name', 'f-name', 'class', 'roll', 'school', 'mobile', 'email'];
+            let allFilled = true;
+    
+            fields.forEach(field => {
+                let savedValue = localStorage.getItem(field);
+                if (savedValue) {
+                    document.getElementById(field).value = savedValue;
+                } else {
+                    allFilled = false;
+                }
+            });
+    
+            if (allFilled) {
+                document.querySelector('.save_details').style.display = 'none';
+                document.getElementById('editButton').style.display = 'block';
+            }
+        }
+    
+        function checkSavedData() {
+            let fields = ['name', 'f-name', 'class', 'roll', 'school', 'mobile', 'email'];
+            let allFilled = fields.every(field => localStorage.getItem(field));
+    
+            if (allFilled) {
+                document.querySelector('.save_details').style.display = 'none';
+                document.getElementById('editButton').style.display = 'block';
+            }
+        }
+    
+        function editDetails() {
+            document.querySelector('.save_details').style.display = 'flex';
+            document.getElementById('editButton').style.display = 'none';
+        }
+    
+        window.onload = loadSavedData;
+    </script>
+
+    <script>
+        function startLoading() {
+            let btn = document.getElementById("loadingButton");
+            let btn2 = document.getElementById("loadingButton2");
+            document.getElementById('preText').innerHTML = 'We are preparing your site';
+
+
+            btn.disabled = true;
+            btn.innerText = "preparing...";
+            
+            setTimeout(() => {
+                btn.style.display = 'none';
+                btn2.style.display = 'block';
+            }, 5000); // 5 seconds delay
+        }
+
+        function displaySite() {
+            document.getElementById('save_details').style.display = 'none';
+            document.getElementById('editButton').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<div id="resultView" class="result-container">
+    <h2 id="resultSchoolName"></h2>
+    <h3 id="resultExamName"></h3>
+    <p><strong>Student Name:</strong> <span id="resultStudentName"></span></p>
+    <p><strong>Class:</strong> <span id="resultStudentClass"></span></p>
+    <p><strong>Roll No:</strong> <span id="resultRollNo"></span></p>
+    
+    <img id="resultStudentImage" src="" alt="Student Photo" class="student-photo">
+    
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3><strong>Percentage:</strong> <span id="resultPercentage"></span>%</h3>
+
+    <img id="resultPrincipalSign" src="" alt="Principal Signature" class="signature">
+</div>
+
+<style>
+    .result-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .student-photo, .signature {
+        max-width: 100px;
+        margin-top: 10px;
+    }
+    #resultTable {
+        width: 100%;}
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    #resultTable th, #resultTable td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    #resultTable th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>

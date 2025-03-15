@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report Card Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #reportCard {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 100px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Report Card Generator</h1>
+        <label>School Name: <input type="text" id="schoolName"></label>
+        <label>Examination Name: <input type="text" id="examName"></label>
+        <label>Student Name: <input type="text" id="studentName"></label>
+        <label>Class: <input type="text" id="studentClass"></label>
+        <label>Roll No: <input type="text" id="rollNo"></label>
+        <label>Upload Student Image: <input type="file" id="studentImage" accept="image/*"></label>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody id="marksTable">
+                <tr>
+                    <td><input type="text" placeholder="Subject"></td>
+                    <td><input type="number" min="0" max="100" placeholder="Marks"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button onclick="addRow()">Add Subject</button>
+        <label>Upload Principal's Signature: <input type="file" id="principalSign" accept="image/*"></label>
+        <button onclick="generateReport()">Generate Report</button>
+        <button onclick="downloadPDF()" id="downloadBtn" style="display:none;">Download PDF</button>
+    </div>
+    <div id="reportCard"></div>
+    
+    <script>
+        function addRow() {
+            let table = document.getElementById("marksTable");
+            let row = table.insertRow();
+            row.innerHTML = '<td><input type="text" placeholder="Subject"></td><td><input type="number" min="0" max="100" placeholder="Marks"></td>';
+        }
+        
+        function generateReport() {
+            let schoolName = document.getElementById("schoolName").value;
+            let examName = document.getElementById("examName").value;
+            let name = document.getElementById("studentName").value;
+            let studentClass = document.getElementById("studentClass").value;
+            let rollNo = document.getElementById("rollNo").value;
+            let table = document.getElementById("marksTable").rows;
+            
+            let report = `<h2>${schoolName}</h2><h3>${examName}</h3><p><strong>Name:</strong> ${name}</p><p><strong>Class:</strong> ${studentClass}</p><p><strong>Roll No:</strong> ${rollNo}</p>`;
+            report += '<table><tr><th>Subject</th><th>Marks</th></tr>';
+            
+            let totalMarks = 0;
+            let subjectCount = 0;
+            for (let i = 0; i < table.length; i++) {
+                let subject = table[i].cells[0].children[0].value;
+                let marks = table[i].cells[1].children[0].value || 0;
+                if (subject) {
+                    report += `<tr><td>${subject}</td><td>${marks}</td></tr>`;
+                    totalMarks += parseInt(marks);
+                    subjectCount++;
+                }
+            }
+            report += '</table>';
+            
+            if (subjectCount > 0) {
+                let percentage = (totalMarks / (subjectCount * 100) * 100).toFixed(2);
+                report += `<h3>Percentage: ${percentage}%</h3>`;
+            }
+            
+            let studentImage = document.getElementById("studentImage").files[0];
+            if (studentImage) {
+                let imgURL = URL.createObjectURL(studentImage);
+                report += `<h3>Student Photo</h3><img src="${imgURL}" alt="Student Image">`;
+            }
+            
+            let principalSign = document.getElementById("principalSign").files[0];
+            if (principalSign) {
+                let signURL = URL.createObjectURL(principalSign);
+                report += `<h3>Principal's Signature</h3><img src="${signURL}" alt="Principal's Signature">`;
+            }
+            
+            document.getElementById("reportCard").innerHTML = report;
+            document.getElementById("reportCard").style.display = "block";
+            document.getElementById("downloadBtn").style.display = "block";
+        }
+
+        
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+    
+            // Capture the .hero div with html2canvas at a higher resolution for better quality
+            html2canvas(document.getElementById('reportCard'), { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Define custom PDF dimensions: 1371px width by 727px height
+                const pdf = new jsPDF({
+                    orientation: "landscape",
+                    unit: "px",
+                    format: [1371, 727], // Custom width and height
+                    putOnlyUsedFonts: true,
+                    floatPrecision: 16
+                });
+    
+                // Fit the canvas content to the entire PDF dimensions
+                pdf.addImage(imgData, 'PNG', 0, 0, 1371, 727);
+                pdf.save('generated_custom_size.pdf');
+            });
+        });
+    </script>
+</body>
+</html>
